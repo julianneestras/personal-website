@@ -1,7 +1,10 @@
 <template>
-    <DarkMode msg="Vite + Vue" />
+    <Navbar />
 </template>
 
+
 <script setup>
-import DarkMode from '../components/DarkMode.vue'
+import Navbar from '../layout/Navbar.vue'
 </script>
+
+<style scoped></style>
