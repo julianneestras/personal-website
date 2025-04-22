@@ -2,6 +2,23 @@
 @plugin "daisyui" {
   themes: all;
 }
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+
+  --color-base-100: #eaeaea;
+  --color-primary: #f4749c;
+  --color-secondary: #f4749c;
+  --base--content: red;
+}
+
+@plugin "daisyui/theme" {
+  name: "dracula";
+  default: false;
+
+  --color-primary: #f4749c;
+  --color-secondary: #f4749c;
+}
 
 body {
   margin: 0;
@@ -10,10 +27,3 @@ body {
   /* min-width: 320px; */
   /* min-height: 100vh; */
 }
-/* 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
