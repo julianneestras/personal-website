@@ -21,34 +21,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useTheme } from '../composables/useTheme'
 
-const isDark = ref(false)
-
-const setTheme = (theme) => {
-    if (theme === 'dracula') {
-        document.documentElement.setAttribute('data-theme', 'dracula')
-        localStorage.setItem("color-theme", "dracula")
-        isDark.value = true
-    } else {
-        document.documentElement.setAttribute('data-theme', 'light')
-        localStorage.setItem("color-theme", "light")
-        isDark.value = false
-    }
-}
+const { isDark, setTheme, initTheme } = useTheme()
 
 watch(isDark, (newVal) => {
     setTheme(newVal ? 'dracula' : 'light')
 })
 
 onMounted(() => {
-    const stored = localStorage.getItem("color-theme")
-
-    if (stored === "dracula" || !stored === null) {
-        setTheme('dracula')
-    } else {
-        setTheme('light')
-    }
+    initTheme()
 })
 </script>
 
@@ -92,6 +75,7 @@ onMounted(() => {
 .transition-transform {
     transition: transform 0.3s ease;
 }
+
 .transition-all {
     transition: all 0.3s ease;
 }
