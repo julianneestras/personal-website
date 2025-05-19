@@ -6,10 +6,11 @@
   name: "light";
   default: true;
 
-  --color-base-100: #eaeaea;
+  --color-base-100: #f4f4f4;
   --color-primary: #f4749c;
   --color-secondary: #f4749c;
-  --base--content: red;
+  --color-base-content: #000;
+  --color-primary-content: #fff;
 }
 
 @plugin "daisyui/theme" {
@@ -18,6 +19,7 @@
 
   --color-primary: #f4749c;
   --color-secondary: #f4749c;
+  --color-primary-content: #232530;
 }
 
 body {
