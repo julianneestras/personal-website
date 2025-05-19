@@ -1,7 +1,10 @@
 <template>
     <Navbar />
     <Header />
-    <Content />
+    <main>
+        <Content />
+    </main>
+    <Footer />
 </template>
 
 
@@ -9,6 +12,7 @@
 import Navbar from '../layout/Navbar.vue'
 import Header from '../layout/Header.vue'
 import Content from '../layout/Content.vue'
+import Footer from '../layout/Footer.vue'
 </script>
 
 <style scoped></style>
