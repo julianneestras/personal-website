@@ -1,14 +1,12 @@
 <template>
     <div>
-        <div class="navbar bg-base-100 items-center justify-evenly p-3">
+        <div
+            :class="['navbar fixed top-0 w-full z-30 transition-all duration-300 items-center justify-evenly', scrolled ? 'bg-base-200 shadow-md' : 'bg-transparent']">
             <img src="../assets/logo.svg" alt="logo" class="h-10 w-10 pl-4" />
 
             <!-- Mobile controls -->
             <div class="flex items-center space-x-0 lg:hidden ml-auto">
                 <DarkMode />
-                <div class="order-1">
-
-                </div>
 
                 <!-- Hamburger on mobile -->
                 <div class="order-2">
@@ -24,11 +22,26 @@
 
             <!-- Main navbar for large screens -->
             <div class="hidden lg:flex items-center space-x-6 p-auto">
-                <a href="#home" class="text-base text-gray-500 hover:text-gray-700">Home</a>
-                <a href="#about" class="text-base text-gray-500 hover:text-gray-700">About</a>
-                <a href="#projects" class="text-base text-gray-500 hover:text-gray-700">Projects</a>
-                <a href="#contact" class="text-base text-gray-500 hover:text-gray-700">Contact</a>
-                <button class="btn mr-4 btn-primary shadow-sm rounded-lg">Download Resume</button>
+                <a @click.prevent="scrollToSection('home')" href="#home"
+                    class="text-base text-gray-500 hover:text-gray-700 cursor-pointer">Home</a>
+                <a @click.prevent="scrollToSection('about')" href="#about"
+                    class="text-base text-gray-500 hover:text-gray-700 cursor-pointer">About</a>
+                <a @click.prevent="scrollToSection('projects')" href="#projects"
+                    class="text-base text-gray-500 hover:text-gray-700 cursor-pointer">Projects</a>
+                <a @click.prevent="scrollToSection('contact')" href="#contact"
+                    class="text-base text-gray-500 hover:text-gray-700 cursor-pointer">Contact</a>
+
+                <div class="relative justify-center inline-block items-center m-0 w-full h-full">
+                    <button @click="downloadResume" class="btn mr-4 btn-primary shadow-sm rounded-lg z-10">
+                        Download Resume
+                    </button>
+                    <div v-if="showConfetti"
+                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
+                        <DotLottieVue src="https://lottie.host/7e090be5-e7f8-46fb-a2bc-d06155fde6cc/mV94ISmnPZ.lottie"
+                            background="transparent" speed="1" loop autoplay class="w-48 h-48"
+                            @animationend="hideConfetti" />
+                    </div>
+                </div>
                 <DarkMode />
             </div>
         </div>
@@ -44,30 +57,93 @@
                     ✕
                 </button>
                 <nav class="flex flex-col space-y-4 mt-8">
-                    <a href="#home" class="text-lg text-gray-500 hover:text-gray-700" @click="toggleNavbar">Home</a>
-                    <a href="#about" class="text-lg" @click="toggleNavbar">About</a>
-                    <a href="#projects" class="text-lg" @click="toggleNavbar">Projects</a>
-                    <a href="#contact" class="text-lg" @click="toggleNavbar">Contact</a>
+                    <a @click.prevent="scrollToSection('home'); toggleNavbar()" href="#home"
+                        class="text-lg text-gray-500 hover:text-gray-700 cursor-pointer">Home</a>
+                    <a @click.prevent="scrollToSection('about'); toggleNavbar()" href="#about"
+                        class="text-lg text-gray-500 hover:text-gray-700 cursor-pointer">About</a>
+                    <a @click.prevent="scrollToSection('projects'); toggleNavbar()" href="#projects"
+                        class="text-lg text-gray-500 hover:text-gray-700 cursor-pointer">Projects</a>
+                    <a @click.prevent="scrollToSection('contact'); toggleNavbar()" href="#contact"
+                        class="text-lg text-gray-500 hover:text-gray-700 cursor-pointer">Contact</a>
                 </nav>
-                <div class="mt-12">
-                    <button class="btn btn-primary w-full rounded-lg">Download Resume</button>
+                <div class="mt-12 relative">
+                    <button @click="downloadResume" class="btn btn-primary w-full rounded-lg">Download Resume</button>
+                    <div v-if="showConfetti"
+                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20">
+                        <DotLottieVue src="https://lottie.host/7e090be5-e7f8-46fb-a2bc-d06155fde6cc/mV94ISmnPZ.lottie"
+                            background="transparent" speed="1" loop autoplay class="w-48 h-48"
+                            @animationend="hideConfetti" />
+                    </div>
                 </div>
             </div>
         </transition>
     </div>
 </template>
 
-
-
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import DarkMode from '../components/DarkMode.vue'
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
+// Using the URL approach for public assets
 
+const router = useRouter()
 const isNavbarOpen = ref(false)
+const showConfetti = ref(false)
+const scrolled = ref(false)
+
+const handleScroll = () => {
+    scrolled.value = window.scrollY > 10
+}
 
 const toggleNavbar = () => {
     isNavbarOpen.value = !isNavbarOpen.value
 }
+
+const downloadResume = () => {
+    showConfetti.value = true
+    const link = document.createElement('a')
+    link.href = '/assets/resume/Julianne_Estras_Resume.pdf'
+    link.download = 'JulianneEstras_Resume_2025.pdf'
+    link.click()
+
+    setTimeout(() => {
+        showConfetti.value = false
+    }, 3000)
+}
+
+const hideConfetti = () => {
+    showConfetti.value = false
+}
+
+const scrollToSection = (sectionId) => {
+    // Update the URL
+    router.push({ path: `/${sectionId}` })
+
+    // Scroll to the section
+    const element = document.getElementById(sectionId)
+    if (element) {
+        // Add smooth scrolling
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        })
+    } else if (sectionId === 'home') {
+        // Special case for home which might not have an ID
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }
+}
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>

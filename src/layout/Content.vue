@@ -1,0 +1,61 @@
+<!-- Updated Projects Section in Content.vue -->
+<template>
+    <div class="bg-base-200 w-full overflow-hidden">
+        <!-- Projects Section -->
+        <section id="projects" class="bg-base-200 flex justify-center items-center overflow-hidden">
+            <Projects />
+        </section>
+
+        <!-- <section id="tech-stack" class="py-20 px-6 md:px-10 lg:px-20 bg-base-300">
+            <AboutMe />
+        </section> -->
+    </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
+import AboutMe from '../sections/AboutMe.vue';
+import Projects from '../sections/Projects.vue';
+
+const contactForm = ref({
+    name: '',
+    email: '',
+    message: ''
+});
+
+const submitForm = () => {
+    alert('Thank you for your message! I will get back to you soon.');
+    contactForm.value = {
+        name: '',
+        email: '',
+        message: ''
+    };
+};
+</script>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+h2,
+h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+p,
+input,
+textarea,
+button {
+    font-family: 'Montserrat', sans-serif;
+}
+
+section {
+    scroll-margin-top: 80px;
+}
+
+/* Add the frosted glass effect styling */
+.bg-primary-gradient {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+</style>
