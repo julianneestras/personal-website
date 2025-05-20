@@ -1,7 +1,9 @@
 <template>
     <div>
-        <div
-            :class="['navbar fixed top-0 w-full z-30 transition-all duration-300 items-center justify-evenly', scrolled ? 'bg-base-200 shadow-md' : 'bg-transparent']">
+        <div :class="[
+            'navbar fixed top-0 w-full z-30 transition-all duration-300 items-center justify-evenly backdrop-blur',
+            scrolled ? 'shadow-md backdrop-saturate-150' : 'bg-transparent', isDark ? 'dark:bg-[#232530]/40 backdrop-saturate-150' : ''
+        ]">
             <img src="../assets/logo.svg" alt="logo" class="h-10 w-10 pl-4" />
 
             <!-- Mobile controls -->
@@ -85,9 +87,10 @@ import { onMounted, ref, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import DarkMode from '../components/DarkMode.vue'
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
-// Using the URL approach for public assets
+import { useTheme } from '../composables/useTheme'
 
 const router = useRouter()
+const { isDark } = useTheme()
 const isNavbarOpen = ref(false)
 const showConfetti = ref(false)
 const scrolled = ref(false)
