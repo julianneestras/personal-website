@@ -6,15 +6,14 @@
             <Projects />
         </section>
 
-        <!-- <section id="tech-stack" class="py-20 px-6 md:px-10 lg:px-20 bg-base-300">
+        <section id="about" class="px-6 md:px-10 lg:px-20 bg-base-200">
             <AboutMe />
-        </section> -->
+        </section>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { DotLottieVue } from '@lottiefiles/dotlottie-vue';
 import AboutMe from '../sections/AboutMe.vue';
 import Projects from '../sections/Projects.vue';
 
