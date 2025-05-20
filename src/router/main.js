@@ -16,30 +16,22 @@ const routes = [
   {
     path: "/about",
     component: Home,
-    meta: { 
-      scrollTo: 
-      "about" 
+    meta: {
+      scrollTo: "about",
     },
   },
   {
     path: "/projects",
     component: Home,
-    meta: { 
-      scrollTo: "projects" 
-    },
-  },
-  {
-    path: "/tech-stack",
-    component: Home,
-    meta: { 
-      scrollTo: "tech-stack" 
+    meta: {
+      scrollTo: "projects",
     },
   },
   {
     path: "/contact",
     component: Home,
-    meta: { 
-      scrollTo: "contact" 
+    meta: {
+      scrollTo: "contact",
     },
   },
 ];
@@ -62,19 +54,19 @@ const router = createRouter({
             });
           } else {
             // Fall back to top of page
-            resolve({ 
-              top: 0, 
-              behavior: "smooth" 
+            resolve({
+              top: 0,
+              behavior: "smooth",
             });
           }
         }, 100);
       });
     }
     // Default to top of page
-    return { 
-      top: 0, 
-      behavior: "smooth"
-     };
+    return {
+      top: 0,
+      behavior: "smooth",
+    };
   },
 });
 
