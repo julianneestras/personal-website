@@ -1,13 +1,13 @@
 <template>
     <div class="w-full overflow-hidden py-15 pt-25 px-4 sm:px-6 lg:px-8 relative max-w-5xl">
         <!-- Background elements -->
-        <div class="absolute top-20 right-20 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-20 right-20 w-32 h-32 bg-accent/15 rounded-full blur-2xl animate-pulse"></div>
         <div class="absolute top-30 left-20 w-94 h-64 bg-primary/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-22 right-20 w-50 h-50 bg-secondary/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-22 right-20 w-50 h-50 bg-secondary/10 rounded-full blur-3xl "></div>
         <div class="absolute bottom-30 left-20 w-100 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
 
         <!-- Section Header -->
-        <div class="text-center relative z-10 mb-16" ref="headerRef">
+        <div class="text-center relative z-10 mb-16 px-2" ref="headerRef">
             <span class="text-primary font-medium tracking-widest uppercase text-sm mb-2 inline-block 
                 transition-all duration-500 transform"
                 :class="{ 'translate-y-0 opacity-100': isHeaderVisible, 'translate-y-[-20px] opacity-0': !isHeaderVisible }">
@@ -17,10 +17,11 @@
                 { 'translate-y-0 opacity-100': isHeaderVisible, 'translate-y-[-20px] opacity-0': !isHeaderVisible }]">
                 Featured Projects
             </h2>
-            <p class="text-lg max-w-2xl mx-auto mb-8 transition-all duration-500 delay-200 transform" :class="[isDark ? 'text-slate-300' : 'text-gray-500',
-            { 'translate-y-0 opacity-100': isHeaderVisible, 'translate-y-[-20px] opacity-0': !isHeaderVisible }]">
-                Take a look at some of my recent projects, where innovation meets impact. Each one tells a story of
-                problem-solving, creativity, and technical expertise.
+            <p class="text-lg font-medium max-w-2xl mx-auto mb-8 transition-all duration-500 delay-200 transform"
+                :class="[isDark ? 'text-gray-500 ' : '',
+                { 'translate-y-0 opacity-100': isHeaderVisible, 'translate-y-[-20px] opacity-0': !isHeaderVisible }]">
+                Here are some of my recent projects — just stuff I’ve built that I had fun working on and learned a lot
+                from.
             </p>
         </div>
 
@@ -33,6 +34,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useTheme } from '../composables/useTheme';
 import ProjectCard from '../components/ProjectCard.vue';
 import proj1 from '../assets/images/metrix-apparel.png'
 import proj2 from '../assets/images/starplan.jpg'
@@ -43,6 +45,7 @@ import proj6 from '../assets/images/nature.png'
 
 const headerRef = ref(null);
 const isHeaderVisible = ref(false);
+const isDark = useTheme();
 
 onMounted(() => {
     const createObserver = (elementRef, visibilityRef) => {
@@ -89,7 +92,8 @@ const projects = ref([
         description: 'A minimal e-commerce app with CRUD, product listing via public API, and search/filter.',
         tech: ['Vue.js', 'JavaScript', 'CSS', 'HTML', 'Tailwind CSS'],
         image: proj1,
-        github: 'https://github.com/julianneestras/personal-portfolio'
+        preview: '',
+        github: 'https://github.com/julianneestras/ecommerce-web-app'
     },
     {
         id: 2,
@@ -97,7 +101,8 @@ const projects = ref([
         description: 'Redesigned the STARPLAN website in Figma with a modern, responsive layout focused on improved navigation and visual clarity.',
         tech: ['Figma', 'Prototyping', 'UI/UX Design'],
         image: proj2,
-        github: 'https://github.com/julianneestras/use-quiz'
+        preview: 'https://www.figma.com/proto/v3BxrzkT17ZdUSv9e017dY/STARPLAN-DESIGN-PT-III?node-id=414-2&t=zuKwTyq57SDTY8KZ-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=414-2',
+        github: 'https://www.figma.com/design/v3BxrzkT17ZdUSv9e017dY/STARPLAN-DESIGN-PT-III?node-id=0-1&t=jJCGGgLG2pRjj3aF-1'
     },
     {
         id: 3,
@@ -105,7 +110,8 @@ const projects = ref([
         description: 'An comprehensive ordering app system for a local food business to manage orders, menus, and deliveries.',
         tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
         image: proj3,
-        github: 'https://github.com/julianneestras/ecommerce-dashboard'
+        preview: '',
+        github: 'https://github.com/julianneestras/ate-carlas-bacsilog'
     },
     {
         id: 4,
@@ -113,7 +119,8 @@ const projects = ref([
         description: 'A user-friendly patient-doctor appointment system that simplifies booking, managing, and tracking medical appointments efficiently.',
         tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
         image: proj4,
-        github: 'https://github.com/julianneestras/weather-app'
+        preview: '',
+        github: 'https://github.com/julianneestras/welltechcare'
     },
     {
         id: 5,
@@ -121,7 +128,8 @@ const projects = ref([
         description: 'A visually rich nature website built entirely with HTML and CSS, showcasing landscapes and nature photography.',
         tech: ['HTML', 'CSS', 'Web Design'],
         image: proj6,
-        github: 'https://github.com/julianneestras/weather-app'
+        preview: '',
+        github: 'https://github.com/julianneestras/nature-website'
     },
     {
         id: 6,
@@ -129,7 +137,8 @@ const projects = ref([
         description: 'A sleek fashion website built with HTML and CSS, showcasing modern styles with a clean, responsive design.',
         tech: ['HTML', 'CSS', 'Web Design'],
         image: proj5,
-        github: 'https://github.com/julianneestras/weather-app'
+        preview: '',
+        github: 'https://github.com/julianneestras/fashion-website'
     }
 ]);
 
@@ -143,6 +152,10 @@ const projects = ref([
 h2,
 h3 {
     font-family: 'Poppins', sans-serif;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* Project card staggered animation delays */
