@@ -1,9 +1,11 @@
 <template>
     <div class="bg-base-200 relative flex flex-col justify-center items-center h-full w-full p-6 pt-22 overflow-hidden"
         ref="headerRef" :class="{ 'stacked-header': !isVisible, 'visible-header': isVisible }">
-        <DotLottieVue :key="lottieKey" :class="isDark ? 'opacity-8' : 'opacity-70'"
-            class="absolute inset-0 w-auto h-auto pointer-events-none justify-center object-contain" autoplay loop
-            src="https://lottie.host/39699e80-8a70-4c30-b8b4-dca129943f69/VVvVcxQV22.lottie" />
+        <DotLottieVue :key="`lottie-${lottieKey}-${windowSize.width}-${windowSize.height}`"
+            :class="isDark ? 'opacity-8' : 'opacity-70'"
+            class="absolute inset-0 w-full h-full pointer-events-none justify-center object-contain lottie-container"
+            autoplay loop src="https://lottie.host/39699e80-8a70-4c30-b8b4-dca129943f69/VVvVcxQV22.lottie"
+            ref="mainLottieRef" />
         <div class="relative flex flex-col justify-center items-center overflow-hidden transition-all duration-500"
             :class="{ 'translate-y-0 opacity-100': isVisible, 'translate-y-[-20px] opacity-0': !isVisible }">
             <img src="../assets/images/me.png" class="h-25 w-25">
@@ -19,12 +21,14 @@
             </h1>
             <div class="relative w-full h-auto">
                 <!-- Sparkle Lottie Layer 1 -->
-                <DotLottieVue class="absolute inset-0 w-full h-full pointer-events-none z-0" autoplay loop
+                <DotLottieVue :key="`sparkle1-${lottieKey}-${windowSize.width}-${windowSize.height}`"
+                    class="absolute inset-0 w-full h-full pointer-events-none z-0 lottie-container" autoplay loop
                     src="https://lottie.host/6c1638b2-b523-4c3a-80b6-57747bddaa93/9rNOp2wPvs.lottie" />
 
-                <!-- Sparkle Lottie Layer 2 (different or same file, styled differently) -->
-                <DotLottieVue class="absolute inset-0 w-full h-full pointer-events-none scale-125 z-0" autoplay loop
-                    src="https://lottie.host/6c1638b2-b523-4c3a-80b6-57747bddaa93/9rNOp2wPvs.lottie" />
+                <!-- Sparkle Lottie Layer 2 -->
+                <DotLottieVue :key="`sparkle2-${lottieKey}-${windowSize.width}-${windowSize.height}`"
+                    class="absolute inset-0 w-full h-full pointer-events-none scale-125 z-0 lottie-container" autoplay
+                    loop src="https://lottie.host/6c1638b2-b523-4c3a-80b6-57747bddaa93/9rNOp2wPvs.lottie" />
 
                 <!-- Main Text Layer -->
                 <h2 class="text-2xl md:text-5xl font-bold leading-tight mt-2 relative z-10 transition-all duration-500 delay-200"
@@ -55,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, onBeforeMount, watch } from 'vue'
+import { ref, onMounted, onUnmounted, onBeforeMount, watch, nextTick } from 'vue'
 import { DotLottieVue } from '@lottiefiles/dotlottie-vue'
 import { useTheme } from '../composables/useTheme'
 import { useRouter } from 'vue-router'
@@ -65,7 +69,14 @@ const { isDark } = useTheme()
 
 const lottieKey = ref(0)
 const headerRef = ref(null)
+const mainLottieRef = ref(null)
 const isVisible = ref(false)
+
+// Window size tracking for better resize handling
+const windowSize = ref({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1920,
+    height: typeof window !== 'undefined' ? window.innerHeight : 1080
+})
 
 // Typing effect variables
 const typingComplete = ref(false)
@@ -85,9 +96,37 @@ let pauseBeforeDelete = 1200
 let pauseBeforeNext = 500
 let isDeleting = false
 let typingTimer = null
+let resizeTimeout = null
 
 const handleResize = () => {
-    lottieKey.value += 1
+    // Clear any existing timeout
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
+    }
+
+    // Debounce the resize handling
+    resizeTimeout = setTimeout(() => {
+        // Update window size
+        windowSize.value = {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
+
+        // Force re-render of Lottie animations
+        lottieKey.value += 1
+
+        // Use nextTick to ensure DOM updates are complete
+        nextTick(() => {
+            // Additional cleanup if needed
+            if (mainLottieRef.value) {
+                // Force a refresh of the main lottie
+                const lottieElement = mainLottieRef.value
+                if (lottieElement && typeof lottieElement.refresh === 'function') {
+                    lottieElement.refresh()
+                }
+            }
+        })
+    }, 100) // 100ms debounce
 }
 
 const typeText = () => {
@@ -178,6 +217,12 @@ watch(isVisible, (newValue) => {
 })
 
 onMounted(() => {
+    // Set initial window size
+    windowSize.value = {
+        width: window.innerWidth,
+        height: window.innerHeight
+    }
+
     window.addEventListener('resize', handleResize)
 
     // Add intersection observer for animation on scroll
@@ -211,6 +256,9 @@ onMounted(() => {
         if (typingTimer) {
             clearTimeout(typingTimer)
         }
+        if (resizeTimeout) {
+            clearTimeout(resizeTimeout)
+        }
     }
 })
 
@@ -218,6 +266,9 @@ onBeforeMount(() => {
     window.removeEventListener('resize', handleResize)
     if (typingTimer) {
         clearTimeout(typingTimer)
+    }
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout)
     }
 })
 
@@ -270,6 +321,14 @@ button {
 /* Global transition settings for the header */
 .bg-base-200 {
     transition: all 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+/* Lottie container improvements */
+.lottie-container {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
 }
 
 /* Typing effect styles */
