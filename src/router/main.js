@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 import Home from "../views/Home.vue";
+import PageNotFound from "../views/not-found/PageNotFound.vue";
 
 const routes = [
   {
@@ -33,6 +34,15 @@ const routes = [
     meta: {
       scrollTo: "contact",
     },
+  },
+  {
+    path: "/404",
+    name: "PageNotFound",
+    component: PageNotFound,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/404",
   },
 ];
 
