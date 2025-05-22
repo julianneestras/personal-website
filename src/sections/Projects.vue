@@ -107,7 +107,7 @@ const projects = ref([
     {
         id: 3,
         title: 'Ordering App System',
-        description: 'An comprehensive ordering app system for a local food business to manage orders, menus, and deliveries.',
+        description: 'A comprehensive ordering app system for a local food business to manage orders, menus, and deliveries.',
         tech: ['HTML', 'CSS', 'JavaScript', 'PHP'],
         image: proj3,
         preview: '',
