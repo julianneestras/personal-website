@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen py-15 px-6 md:px-10 lg:px-20">
+    <div class="min-h-screen pt-6 pb-15 md:px-10 lg:px-20">
         <!-- Background decorative elements -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
@@ -19,9 +19,9 @@
                     { 'translate-y-0 opacity-100': isHeaderVisible, 'translate-y-[-20px] opacity-0': !isHeaderVisible }]">
                     About Me
                 </h2>
-                <p class="text-lg max-w-2xl mx-auto mb-8 transition-all duration-500 delay-200 transform"
-                    :class="[isDark ? 'text-slate-300' : 'text-gray-500',
-                    { 'translate-y-0 opacity-100': isHeaderVisible, 'translate-y-[-20px] opacity-0': !isHeaderVisible }]">
+                <p class="text-md sm:text-lg text text-gray-500 font-medium text-gray-500 max-w-2xl mx-auto mb-8 transition-all duration-500 delay-200 transform"
+                    :class="[
+                        { 'translate-y-0 opacity-100': isHeaderVisible, 'translate-y-[-20px] opacity-0': !isHeaderVisible }]">
                     Wanna know more? I’m a front-end dev who loves making websites look good. Clean code and cool
                     design—that’s my thing!
                 </p>
@@ -56,28 +56,29 @@
                         </h2>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         <div v-for="(tech, index) in techStack" :key="tech.name"
-                            class="flex items-center gap-3 p-4 rounded-xl transition-all duration-300 cursor-pointer group transform"
+                            class="flex items-center gap-3 p-4 rounded-xl transition-all duration-300 cursor-pointer group transform w-full"
                             :class="[
                                 isDark ? 'border-2 border-gray-700 hover:border-primary/30 hover:bg-primary/10' : 'border-2 border-gray-100 hover:border-primary/30 hover:bg-primary/5',
                                 { 'translate-y-0 opacity-100': isTechVisible, 'translate-y-[10px] opacity-0': !isTechVisible },
                                 `transition-delay-${index * 50}`
                             ]">
                             <div
-                                class="w-10 h-10 rounded-lg overflow-hidden group-hover:scale-110 transition-transform">
+                                class="w-10 h-10 rounded-lg overflow-hidden group-hover:scale-110 transition-transform flex-shrink-0">
                                 <img :src="tech.icon" :alt="tech.name" class="w-full h-full object-contain">
                             </div>
-                            <div>
-                                <span class="font-medium" :class="isDark ? 'text-slate-100' : 'text-slate-800'">{{
-                                    tech.name }}</span>
-                                <div class="text-xs" :class="isDark ? 'text-slate-400' : 'text-gray-500'">{{ tech.level
-                                }}</div>
+                            <div class="flex-1 min-w-0">
+                                <span class="text font-semibold block truncate"
+                                    :class="isDark ? 'text-slate-100' : 'text-slate-800'">{{
+                                        tech.name }}</span>
+                                <div class="text-xs truncate" :class="isDark ? 'text-slate-400' : 'text-gray-500'">{{
+                                    tech.level
+                                    }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Experience Timeline -->
                 <div class="p-8 rounded-2xl shadow-lg transition-all duration-500 transform"
                     :class="[isDark ? 'backdrop-blur-md bg-[#13131a]/20' : 'bg-white',
@@ -108,7 +109,8 @@
                             <div class="pb-8">
                                 <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
                                     <h3 class="font-semibold text-lg"
-                                        :class="isDark ? 'text-slate-100' : 'text-slate-800'">{{ exp.position }}</h3>
+                                        :class="isDark ? 'text-slate-100' : 'text-slate-800'">
+                                        {{ exp.position }}</h3>
                                     <span class="text-primary font-medium">@ {{ exp.company }}</span>
                                 </div>
                                 <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-4">
@@ -127,7 +129,7 @@
                                             `transition-delay-${index * 150 + achIndex * 100}`
                                         ]">
                                         <span class="text-primary mt-2 text-xs">▸</span>
-                                        <span>{{ achievement }}</span>
+                                        <span class="text  text-sm sm:text-[16px]">{{ achievement }}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -165,8 +167,9 @@
                             <div class="text-2xl transform transition-all duration-300 group-hover:scale-110">{{
                                 interest.emoji }}</div>
                             <div>
-                                <h3 class="font-medium" :class="isDark ? 'text-slate-100' : 'text-slate-800'">{{
-                                    interest.name }}</h3>
+                                <span class="font-semibold text"
+                                    :class="isDark ? 'text-slate-100' : 'text-slate-800'">{{
+                                        interest.name }}</span>
                                 <p class="text-sm" :class="isDark ? 'text-slate-400' : 'text-gray-600'">{{
                                     interest.description }}</p>
                             </div>
@@ -197,12 +200,13 @@
                             Fun Fact
                         </h2>
                     </div>
-                    <p class="text-lg opacity-90 transition-all duration-500 delay-200" :class="{
+                    <p class="text-md text opacity-90 transition-all duration-500 delay-200" :class="{
                         'translate-y-0 opacity-90': isFunFactVisible,
                         'translate-y-[20px] opacity-0': !isFunFactVisible
                     }">
                         I originally dreamed of becoming a veterinarian because of my deep love for animals.
-                        Life took me on a different path, leading me into programming, but that passion for caring and
+                        Life took me on a different path, leading me into programming, but that passion for caring
+                        and
                         curiosity about living things still inspires me every day.
                     </p>
                 </div>
@@ -321,7 +325,7 @@ const experience = ref([
         id: 1,
         position: 'Freelance Frontend Developer',
         company: 'PG Online Casino',
-        period: 'February 2025 – Present',
+        period: 'Feb 2025 – Present',
         location: 'Remote',
         achievements: [
             'Implemented UI components based on Figma designs using Vue 3, TypeScript, and Vant UI for mobile-first development'
@@ -331,7 +335,7 @@ const experience = ref([
         id: 2,
         position: 'Frontend Developer',
         company: 'Digiplus Interactive Corp.',
-        period: '2023 – 2025',
+        period: 'Oct 2024 – Feb 2025',
         location: 'Philippines',
         achievements: [
             'Developed real-time mobile bingo game using Vue 3, Vant 4 UI, and WebSockets',
@@ -379,6 +383,18 @@ const interests = ref([
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+h2,
+h3 {
+    font-family: 'Poppins', sans-serif;
+}
+
+.text {
+    font-family: 'Montserrat', sans-serif;
+}
+
+
 .delay-0 {
     transition-delay: 0ms;
 }
