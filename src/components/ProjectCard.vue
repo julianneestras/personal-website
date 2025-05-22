@@ -44,7 +44,7 @@
                 <div class="flex items-center gap-4 mt-auto transition-all duration-500 delay-200"
                     :class="{ 'translate-y-0 opacity-100': isVisible, 'translate-y-[10px] opacity-0': !isVisible }">
                     <a :href="project.github" target="_blank"
-                        class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-primary/10 hover:bg-primary/20 transition-all duration-300"
+                        class="group inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg btn border border-transparent bg-primary/10 hover:bg-primary/20 transition-all duration-300"
                         :class="isDark ? 'text-primary' : 'text-slate-700'">
                         <!-- GitHub icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
@@ -80,7 +80,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useTheme } from '../composables/useTheme'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const { isDark } = useTheme()
 
 const props = defineProps({
@@ -95,7 +97,21 @@ const props = defineProps({
 })
 
 const showPreview = () => {
-    alert(`Opening preview for ${props.project.title}`)
+    // Check if preview URL exists and is not empty
+    if (props.project.preview && props.project.preview.trim() !== '') {
+        // Create a temporary anchor element to handle the redirect
+        const link = document.createElement('a')
+        link.href = props.project.preview
+        link.target = '_blank'
+        link.rel = 'noopener noreferrer'
+
+        // Append to body, click, and remove
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    } else {
+        router.push('/404')
+    }
 }
 
 const cardRef = ref(null)
@@ -125,6 +141,16 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+h3 {
+    font-family: 'Poppins', sans-serif;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .project-card {
     font-family: 'Poppins', sans-serif;
     transition: all 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
