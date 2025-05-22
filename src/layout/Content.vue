@@ -1,13 +1,13 @@
-<!-- Updated Projects Section in Content.vue -->
 <template>
     <div class="bg-base-200 w-full overflow-hidden">
-        <!-- Projects Section -->
         <section id="projects" class="bg-base-200 flex justify-center items-center overflow-hidden">
             <Projects />
         </section>
-
         <section id="about" class="px-6 md:px-10 lg:px-20 bg-base-200">
             <AboutMe />
+        </section>
+        <section id="contact" class="px-6 md:px-10 lg:px-20 bg-base-200">
+            <Contact />
         </section>
     </div>
 </template>
@@ -16,21 +16,8 @@
 import { ref } from 'vue';
 import AboutMe from '../sections/AboutMe.vue';
 import Projects from '../sections/Projects.vue';
+import Contact from '../sections/Contact.vue';
 
-const contactForm = ref({
-    name: '',
-    email: '',
-    message: ''
-});
-
-const submitForm = () => {
-    alert('Thank you for your message! I will get back to you soon.');
-    contactForm.value = {
-        name: '',
-        email: '',
-        message: ''
-    };
-};
 </script>
 
 <style scoped>
@@ -53,7 +40,6 @@ section {
     scroll-margin-top: 80px;
 }
 
-/* Add the frosted glass effect styling */
 .bg-primary-gradient {
     background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
 }
