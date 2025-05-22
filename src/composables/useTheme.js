@@ -17,7 +17,7 @@ const setTheme = (theme) => {
 const initTheme = () => {
   const stored = localStorage.getItem("color-theme");
 
-  if (stored === "dracula" || !stored === null) {
+  if (stored === "dracula" || stored === null) {
     setTheme("dracula");
   } else {
     setTheme("light");
