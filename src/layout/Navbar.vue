@@ -1,9 +1,9 @@
 <template>
-    <div class="bg-base-200">
+    <div>
         <div :class="[
             'navbar fixed top-0 w-full z-30 transition-all duration-300 items-center justify-evenly backdrop-blur',
             scrolled ? 'shadow-md backdrop-saturate-150 dark:bg-[#232530]/30' : 'bg-transparent',
-            isDark ? 'dark:bg-[#232530] backdrop-saturate-150' : ''
+
         ]">
             <img src="../assets/logo.svg" alt="logo" class="h-10 w-10 pl-4" />
 
